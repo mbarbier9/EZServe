@@ -20,7 +20,8 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
     private TextView welcomeText;
     private DatabaseReference ref;
     private FirebaseDatabase firebaseDatabase;
-    private String userId ;
+    private String userId;
+    private userCustomer userCustomer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +29,8 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
         setContentView(R.layout.activity_customer_main);
         firebaseAuth = firebaseAuth.getInstance();
         userId = firebaseAuth.getCurrentUser().getUid();
-        DatabaseReference currentUserDB = firebaseDatabase.getInstance()
-                .getReference().child("Users").child(userId);
+        ref = firebaseDatabase.getInstance().getReference().child("Users").child(userId);
+        userCustomer = new userCustomer();
 
 
         //Get status of user and send to main activity if user is signed out
@@ -43,7 +44,7 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
         signOut.setOnClickListener(this);
 
         welcomeText = (TextView) findViewById(R.id.welcomeCustomer);
-        welcomeText.setText("Welcome " + user.getEmail());
+        welcomeText.setText("Welcome " + userCustomer.getEmail());
     }
 
     @Override
