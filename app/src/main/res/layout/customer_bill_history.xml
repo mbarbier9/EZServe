@@ -5,14 +5,14 @@
 
     <TextView
         android:id="@+id/billRestaurant"
-        android:layout_width="322dp"
-        android:layout_height="86dp"
+        android:layout_width="317dp"
+        android:layout_height="67dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="47dp"
-        android:layout_marginLeft="47dp"
-        android:layout_marginTop="19dp"
+        android:layout_marginStart="46dp"
+        android:layout_marginLeft="46dp"
+        android:layout_marginTop="23dp"
         android:text="TextView" />
 
 </RelativeLayout>

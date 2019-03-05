@@ -102,8 +102,8 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
                 for (DataSnapshot bH : dataSnapshot.getChildren()){
                     billHistory = bH.getValue(BillHistory.class);
 
-                    billList.add("Restaurant: " + billHistory.getRestaurant()+"\n\nDate: "+billHistory.getDate()+"\n\nTotal: $ "+
-                            billHistory.getTotal());
+                    billList.add("Restaurant: " + billHistory.getRestaurant() + "\nDate: "+
+                            billHistory.getDate() + "\nTotal: $ " + billHistory.getTotal());
                 }
                 customerList.setAdapter(adapterR);
 
