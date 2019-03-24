@@ -38,9 +38,9 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
     private FirebaseAuth firebaseAuth;
     private Button signOut, scanQR;
     private TextView welcomeText;
-    private DatabaseReference ref, billRef, tableRef;
+     DatabaseReference ref, billRef, tableRef;
     private FirebaseDatabase firebaseDatabase;
-    private String userId;
+    public static String userId, tableReferenceString;
     private userCustomer userCustomer;
     private ArrayList<String> billList;
     private ArrayAdapter<String> adapterR;
@@ -56,6 +56,7 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
         ref = firebaseDatabase.getInstance().getReference("Users").child(userId);
         tableRef = firebaseDatabase.getInstance().getReference("Connection");
         billRef = firebaseDatabase.getInstance().getReference("Users").child(userId).child("Bills");
+        tableReferenceString = "42019";
 
         userCustomer = new userCustomer();
 
@@ -118,13 +119,12 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
         });
     }
 
-    public void scanCode(){
-        tableRef.addValueEventListener(new ValueEventListener() {
+    public void compareCode(){
+        tableRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String x = "42019";
-                if (dataSnapshot.hasChild(x)){
-                    tableRef.child(x).child("Connected Users").child(userId).setValue(true);
+                if (dataSnapshot.hasChild(tableReferenceString)){
+                    tableRef.child(tableReferenceString).child("Connected Users").child(userId).setValue(true);
                     return;
                 }
                 else{
@@ -148,7 +148,7 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
             startActivity(new Intent(this, MainActivity.class));
         }
         if(view == scanQR){
-            scanCode();
+            compareCode();
             startActivity(new Intent(CustomerMainActivity.this, TableMain.class));
         }
     }
