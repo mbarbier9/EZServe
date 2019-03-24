@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
+import java.util.concurrent.TimeUnit;
 import com.google.common.collect.Table;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -16,6 +16,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import java.util.concurrent.TimeUnit;
 
 public class TableMain extends AppCompatActivity implements View.OnClickListener{
 
@@ -63,15 +64,13 @@ public class TableMain extends AppCompatActivity implements View.OnClickListener
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String status = dataSnapshot.child("Status").getValue(String.class);
-                if(status != "ON"){
+                if(dataSnapshot.child("Status").getValue().equals("OFF")){
                     ref.child("Status").setValue("ON");
                 }
                 else {
                     ref.child("Status").setValue("OFF");
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
@@ -83,6 +82,7 @@ public class TableMain extends AppCompatActivity implements View.OnClickListener
     @Override
     public void onClick(View view) {
         if (view == assistance){
+
             requestAssistance();
         }
     }
