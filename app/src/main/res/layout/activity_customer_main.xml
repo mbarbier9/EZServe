@@ -9,14 +9,27 @@
 
     <Button
         android:id="@+id/signOutCustomer"
-        android:layout_width="161dp"
+        android:layout_width="107dp"
         android:layout_height="34dp"
-        android:layout_marginTop="432dp"
+        android:layout_marginTop="476dp"
         android:background="#03c55e"
         android:text="Sign Out"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.197"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/welcomeCustomer" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/connectToTable"
+        android:layout_width="107dp"
+        android:layout_height="34dp"
+        android:layout_marginTop="476dp"
+        android:background="#03c55e"
+        android:text="Scan QR"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.753"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/welcomeCustomer"

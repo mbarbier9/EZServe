@@ -3,6 +3,7 @@ package com.example.ezserve;
 import android.content.Intent;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,7 +15,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.common.collect.Table;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -33,14 +36,14 @@ import java.util.Map;
 public class CustomerMainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private FirebaseAuth firebaseAuth;
-    private Button signOut;
+    private Button signOut, scanQR;
     private TextView welcomeText;
-    private DatabaseReference ref, billRef;
+    private DatabaseReference ref, billRef, tableRef;
     private FirebaseDatabase firebaseDatabase;
     private String userId;
     private userCustomer userCustomer;
     private ArrayList<String> billList;
-    private ArrayAdapter<String> adapterR, adapterD, adapterT;
+    private ArrayAdapter<String> adapterR;
     BillHistory billHistory;
 
     @Override
@@ -51,9 +54,10 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
         firebaseAuth = firebaseAuth.getInstance();
         userId = firebaseAuth.getCurrentUser().getUid();
         ref = firebaseDatabase.getInstance().getReference("Users").child(userId);
+        tableRef = firebaseDatabase.getInstance().getReference("Connection");
         billRef = firebaseDatabase.getInstance().getReference("Users").child(userId).child("Bills");
-        userCustomer = new userCustomer();
 
+        userCustomer = new userCustomer();
 
         //Get status of user and send to main activity if user is signed out
         FirebaseUser user = firebaseAuth.getCurrentUser();
@@ -65,17 +69,16 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
         signOut = (Button) findViewById(R.id.signOutCustomer);
         signOut.setOnClickListener(this);
 
+        scanQR = (Button) findViewById(R.id.connectToTable);
+        scanQR.setOnClickListener(this);
+
         welcomeTextView();
         billListView();
-
-
-
     }
 
     public void welcomeTextView(){
         //Get First Name and welcome the user
         welcomeText = (TextView) findViewById(R.id.welcomeCustomer);
-        String first;
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -106,7 +109,6 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
                             billHistory.getDate() + "\nTotal: $ " + billHistory.getTotal());
                 }
                 customerList.setAdapter(adapterR);
-
             }
 
             @Override
@@ -114,7 +116,28 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
 
             }
         });
+    }
 
+    public void scanCode(){
+        tableRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String x = "42019";
+                if (dataSnapshot.hasChild(x)){
+                    tableRef.child(x).child("Connected Users").child(userId).setValue(true);
+                    return;
+                }
+                else{
+                    Toast.makeText(CustomerMainActivity.this, "Error connecting...", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override
@@ -123,6 +146,10 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
             firebaseAuth.signOut();
             finish();
             startActivity(new Intent(this, MainActivity.class));
+        }
+        if(view == scanQR){
+            scanCode();
+            startActivity(new Intent(CustomerMainActivity.this, TableMain.class));
         }
     }
 }

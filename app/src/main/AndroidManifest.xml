@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EmployeeMainActivity"></activity>
+        <activity android:name=".TableMain"></activity>
+        <activity android:name=".EmployeeMainActivity" />
         <activity android:name=".CustomerMainActivity" />
         <activity android:name=".signUp" />
         <activity android:name=".EmployeeSignIn" />
