@@ -5,9 +5,13 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 import com.google.common.collect.Table;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,12 +30,15 @@ public class TableMain extends AppCompatActivity implements View.OnClickListener
     private String userID, tableChild;
     private DatabaseReference ref;
     private Button assistance;
+    private ArrayList<String> itemsList;
+    private ArrayAdapter<String> adapterItems;
     CustomerMainActivity cM;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_table_main);
+
 
         firebaseAuth = firebaseAuth.getInstance();
         userID = firebaseAuth.getCurrentUser().getUid();
@@ -42,6 +49,7 @@ public class TableMain extends AppCompatActivity implements View.OnClickListener
         assistance.setOnClickListener(this);
 
         tableNumTitle();
+        listView();
 
     }
 
@@ -77,6 +85,32 @@ public class TableMain extends AppCompatActivity implements View.OnClickListener
             }
         });
 
+    }
+
+    public void listView(){
+        final ListView itemsListView = (ListView) findViewById(R.id.tableMainList);
+        itemsList = new ArrayList<>();
+        adapterItems = new ArrayAdapter<String>(this, R.layout.items_list, R.id.itemsListUnit, itemsList);
+
+        DatabaseReference newRef = ref.child("Items");
+        newRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot dS : dataSnapshot.getChildren()){
+                    String key = dS.getKey();
+                    String value = dS.getValue(String.class);
+
+                    itemsList.add(key + " $" + value);
+                }
+                itemsListView.setAdapter(adapterItems);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override

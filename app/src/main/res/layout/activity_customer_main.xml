@@ -11,11 +11,11 @@
         android:id="@+id/signOutCustomer"
         android:layout_width="107dp"
         android:layout_height="34dp"
-        android:layout_marginTop="476dp"
+        android:layout_marginTop="460dp"
         android:background="#03c55e"
         android:text="Sign Out"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.197"
+        app:layout_constraintHorizontal_bias="0.217"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -23,11 +23,11 @@
         android:id="@+id/connectToTable"
         android:layout_width="107dp"
         android:layout_height="34dp"
-        android:layout_marginTop="476dp"
+        android:layout_marginTop="460dp"
         android:background="#03c55e"
         android:text="Scan QR"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.753"
+        app:layout_constraintHorizontal_bias="0.726"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -46,12 +46,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
+
         android:id="@+id/customerMainList"
-        android:layout_width="411dp"
-        android:layout_height="392dp"
-        android:layout_marginTop="40dp"
+        android:layout_width="359dp"
+        android:layout_height="375dp"
+        android:layout_marginTop="44dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/welcomeCustomer" />
 
@@ -63,6 +63,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="56dp"
         android:text="Bill History:"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

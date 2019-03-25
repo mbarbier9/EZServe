@@ -7,6 +7,28 @@
     tools:context=".TableMain">
 
     <TextView
+        android:id="@+id/itemsTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="56dp"
+        android:text="Items:"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ListView
+        android:id="@+id/tableMainList"
+        android:layout_width="359dp"
+        android:layout_height="375dp"
+        android:layout_marginTop="84dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
         android:id="@+id/tableNumberMain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -24,11 +46,11 @@
         android:id="@+id/assistanceButton"
         android:layout_width="107dp"
         android:layout_height="34dp"
-        android:layout_marginTop="476dp"
+        android:layout_marginTop="468dp"
         android:background="#03c55e"
         android:text="Assistance"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.197"
+        app:layout_constraintHorizontal_bias="0.207"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>
