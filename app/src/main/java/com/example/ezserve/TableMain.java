@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 import com.google.common.collect.Table;
@@ -33,6 +34,8 @@ public class TableMain extends AppCompatActivity implements View.OnClickListener
     private ArrayList<String> itemsList;
     private ArrayAdapter<String> adapterItems;
     CustomerMainActivity cM;
+    DecimalFormat df;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +53,7 @@ public class TableMain extends AppCompatActivity implements View.OnClickListener
 
         tableNumTitle();
         listView();
+        df = new DecimalFormat("#.00");
 
     }
 
@@ -98,9 +102,9 @@ public class TableMain extends AppCompatActivity implements View.OnClickListener
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot dS : dataSnapshot.getChildren()){
                     String key = dS.getKey();
-                    String value = dS.getValue(String.class);
+                    float value = dS.getValue(Float.class);
 
-                    itemsList.add(key + " $" + value);
+                    itemsList.add(key + " $" + df.format(value));
                 }
                 itemsListView.setAdapter(adapterItems);
 
