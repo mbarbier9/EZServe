@@ -6,6 +6,7 @@
 #define WIFI_PASSWORD "shinysparrow288"
 #define FIREBASE_LINK "ez-serve-81804.firebaseio.com"
 #define FIREBASE_SECRET "f8QvXMp36EcqZdNcvr64WvOBzmMnhIZ2peboCXjm"
+#define TABLE "/Connection/42019/Status"
 
 //Global variables
 FirebaseData firebaseData;
@@ -32,7 +33,6 @@ void setup() {
   Serial.println(WiFi.localIP());
 
   //Connect to Firebase
-  //Firebase.begin("ezserve-2d221.firebaseio.com", "MGVy4WH3q7KHyaPJYLf99hNfhp06IzlaUuIDMMhI");
   Firebase.begin(FIREBASE_LINK, FIREBASE_SECRET);
   Firebase.reconnectWiFi(true);
 
@@ -62,20 +62,20 @@ void loop() {
     if (val == 0) {
       digitalWrite(2, HIGH);
       val = 1;
-      if (!Firebase.setString(firebaseData, "/Tables/Table_1/Status", "ON")){
+      if (!Firebase.setString(firebaseData, TABLE, "ON")){
         Serial.println(firebaseData.errorReason());
       }
     } else {
       digitalWrite(2, LOW);
       val = 0;
-      if (!Firebase.setString(firebaseData, "/Tables/Table_1/Status", "OFF")){
+      if (!Firebase.setString(firebaseData, TABLE, "OFF")){
         Serial.println(firebaseData.errorReason());
       }
     }
   }
   lastButtonState = buttonState;
 
-  if (Firebase.getString(firebaseData, "/Tables/Table_1/Status")) {   
+  if (Firebase.getString(firebaseData, TABLE)) {   
     String LED_Status = firebaseData.stringData();
     Serial.println(LED_Status);
     delay(100);
