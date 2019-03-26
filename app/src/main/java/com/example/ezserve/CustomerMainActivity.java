@@ -103,11 +103,12 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
         billRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                billList.clear();
                 for (DataSnapshot bH : dataSnapshot.getChildren()){
                     billHistory = bH.getValue(BillHistory.class);
 
                     billList.add("Restaurant: " + billHistory.getRestaurant() + "\nDate: "+
-                            billHistory.getDate() + "\nTotal: $ " + billHistory.getTotal());
+                            billHistory.getDate() + "\nTotal: $" + billHistory.getTotal());
                 }
                 customerList.setAdapter(adapterR);
             }

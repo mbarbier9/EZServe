@@ -1,6 +1,7 @@
 package com.example.ezserve;
 
 import android.provider.ContactsContract;
+import android.speech.tts.TextToSpeech;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,13 +27,13 @@ import java.util.concurrent.TimeUnit;
 public class TableMain extends AppCompatActivity implements View.OnClickListener{
 
     private FirebaseDatabase firebaseDatabase;
-    private TextView tableNum;
+    private TextView tableNum, totalNum, priceItems;
     private FirebaseAuth firebaseAuth;
     private String userID, tableChild;
     private DatabaseReference ref;
     private Button assistance;
-    private ArrayList<String> itemsList;
-    private ArrayAdapter<String> adapterItems;
+    private ArrayList<String> itemsList, priceList;
+    private ArrayAdapter<String> adapterItems, adapterPrice;
     CustomerMainActivity cM;
     DecimalFormat df;
 
@@ -93,20 +94,28 @@ public class TableMain extends AppCompatActivity implements View.OnClickListener
 
     public void listView(){
         final ListView itemsListView = (ListView) findViewById(R.id.tableMainList);
+        totalNum = (TextView) findViewById(R.id.totalNumberTable);
+
         itemsList = new ArrayList<>();
+
         adapterItems = new ArrayAdapter<String>(this, R.layout.items_list, R.id.itemsListUnit, itemsList);
 
         DatabaseReference newRef = ref.child("Items");
         newRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                itemsList.clear();
+                float total = 0;
                 for(DataSnapshot dS : dataSnapshot.getChildren()){
                     String key = dS.getKey();
                     float value = dS.getValue(Float.class);
 
-                    itemsList.add(key + " $" + df.format(value));
+                    itemsList.add(key+" $" + df.format(value));
+                    total = total+value;
                 }
+                itemsListView.setAdapter(null);
                 itemsListView.setAdapter(adapterItems);
+                totalNum.setText("$"+df.format(total));
 
             }
 
