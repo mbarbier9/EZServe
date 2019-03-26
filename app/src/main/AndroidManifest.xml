@@ -2,11 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.ezserve">
 
-
     <meta-data
         android:name="com.google.android.gms.vision.DEPENDENCIES"
         android:value="barcode" />
-
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -15,6 +13,7 @@
         android:required="true" />
 
     <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <application
@@ -24,7 +23,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TableMain"></activity>
+        <activity android:name=".ScanCodeActivity"></activity>
+        <activity android:name=".TableMain" />
         <activity android:name=".EmployeeMainActivity" />
         <activity android:name=".CustomerMainActivity" />
         <activity android:name=".signUp" />

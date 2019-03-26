@@ -45,6 +45,7 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
     private ArrayList<String> billList;
     private ArrayAdapter<String> adapterR;
     BillHistory billHistory;
+    ScanCodeActivity scanCodeActivity;
 
 
     @Override
@@ -58,7 +59,7 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
         ref = firebaseDatabase.getInstance().getReference("Users").child(userId);
         tableRef = firebaseDatabase.getInstance().getReference("Connection").child(restaurantReferenceString);
         billRef = firebaseDatabase.getInstance().getReference("Users").child(userId).child("Bills");
-        tableReferenceString = "42019";
+        tableReferenceString = ScanCodeActivity.codeForScanner;
 
         userCustomer = new userCustomer();
         scanQR = (Button) findViewById(R.id.connectToTable);
@@ -130,6 +131,7 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.hasChild(tableReferenceString)){
                     tableRef.child(tableReferenceString).child("Connected Users").child(userId).setValue(true);
+                    startActivity(new Intent(CustomerMainActivity.this, TableMain.class));
                     return;
                 }
                 else{
@@ -153,8 +155,8 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
             startActivity(new Intent(this, MainActivity.class));
         }
         if(view == scanQR){
+            startActivity(new Intent(CustomerMainActivity.this, ScanCodeActivity.class));
             compareCode();
-            startActivity(new Intent(CustomerMainActivity.this, TableMain.class));
         }
     }
 }
