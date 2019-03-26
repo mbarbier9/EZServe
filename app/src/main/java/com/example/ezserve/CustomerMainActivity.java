@@ -155,8 +155,8 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
             startActivity(new Intent(this, MainActivity.class));
         }
         if(view == scanQR){
-            startActivity(new Intent(CustomerMainActivity.this, ScanCodeActivity.class));
-            compareCode();
+            //startActivity(new Intent(CustomerMainActivity.this, ScanCodeActivity.class));
+            //compareCode();
         }
     }
 }

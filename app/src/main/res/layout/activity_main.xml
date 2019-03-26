@@ -17,22 +17,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-<<<<<<< HEAD
-        app:layout_constraintVertical_bias="0.126"
-=======
         app:layout_constraintVertical_bias="0.207"
->>>>>>> 5d1416b7413201d9333be8c623a34dc60a1da7dd
         app:srcCompat="@drawable/ezservelogo" />
 
     <EditText
         android:id="@+id/emailSignUp"
         android:layout_width="230dp"
         android:layout_height="40dp"
-<<<<<<< HEAD
         android:layout_marginTop="56dp"
-=======
-        android:layout_marginTop="44dp"
->>>>>>> 5d1416b7413201d9333be8c623a34dc60a1da7dd
         android:ems="10"
         android:hint="Email Address"
         android:inputType="textEmailAddress"
