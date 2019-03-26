@@ -9,7 +9,6 @@
     tools:context=".MainActivity">
 
 
-
     <ImageView
         android:id="@+id/imageView4"
         android:layout_width="273dp"
@@ -18,18 +17,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.053"
+        app:layout_constraintVertical_bias="0.207"
         app:srcCompat="@drawable/ezservelogo" />
 
     <EditText
         android:id="@+id/emailSignUp"
         android:layout_width="230dp"
         android:layout_height="40dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="44dp"
         android:ems="10"
         android:hint="Email Address"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView4" />
 
@@ -52,13 +52,14 @@
         android:layout_height="46dp"
         android:layout_marginStart="125dp"
         android:layout_marginLeft="125dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="125dp"
         android:layout_marginRight="125dp"
         android:background="#03c55e"
         android:onClick="signInClicked"
         android:text="Sign In"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordSignUpOne" />
 
@@ -66,11 +67,11 @@
         android:id="@+id/notMember"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:text="Not a member? Sign Up"
+        android:layout_marginTop="20dp"
+        android:background="?attr/selectableItemBackground"
         android:clickable="true"
         android:onClick="signUpClicked"
-        android:background="?attr/selectableItemBackground"
+        android:text="Not a member? Sign Up"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signInButton" />
@@ -80,14 +81,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
-        android:text='I"m an employee'
-        android:textAllCaps="false"
+        android:background="?attr/selectableItemBackground"
         android:clickable="true"
         android:onClick="imEmployeeClicked"
-        android:background="?attr/selectableItemBackground"
+        android:text='I"m an employee'
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/notMember" />
+        app:layout_constraintTop_toBottomOf="@+id/notMember"
+        app:layout_constraintVertical_bias="0.882" />
 
 </android.support.constraint.ConstraintLayout>
