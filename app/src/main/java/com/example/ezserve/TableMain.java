@@ -27,13 +27,13 @@ import java.util.concurrent.TimeUnit;
 public class TableMain extends AppCompatActivity implements View.OnClickListener{
 
     private FirebaseDatabase firebaseDatabase;
-    private TextView tableNum, totalNum, priceItems;
+    private TextView tableNum, totalNum;
     private FirebaseAuth firebaseAuth;
-    private String userID, tableChild;
+    private String userID, tableChild,restaurantChild;
     private DatabaseReference ref;
     private Button assistance;
-    private ArrayList<String> itemsList, priceList;
-    private ArrayAdapter<String> adapterItems, adapterPrice;
+    private ArrayList<String> itemsList;
+    private ArrayAdapter<String> adapterItems;
     CustomerMainActivity cM;
     DecimalFormat df;
 
@@ -47,7 +47,8 @@ public class TableMain extends AppCompatActivity implements View.OnClickListener
         firebaseAuth = firebaseAuth.getInstance();
         userID = firebaseAuth.getCurrentUser().getUid();
         tableChild = cM.tableReferenceString;
-        ref = FirebaseDatabase.getInstance().getReference().child("Connection").child(tableChild);
+        restaurantChild = cM.restaurantReferenceString;
+        ref = FirebaseDatabase.getInstance().getReference().child("Connection").child(restaurantChild).child(tableChild);
 
         assistance = (Button) findViewById(R.id.assistanceButton);
         assistance.setOnClickListener(this);
@@ -63,7 +64,7 @@ public class TableMain extends AppCompatActivity implements View.OnClickListener
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String tableN = dataSnapshot.child("Table").getValue(String.class);
+                int tableN = dataSnapshot.child("Table").getValue(Integer.class);
                 tableNum.setText("Table " + tableN);
             }
 

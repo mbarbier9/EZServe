@@ -38,27 +38,31 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
     private FirebaseAuth firebaseAuth;
     private Button signOut, scanQR;
     private TextView welcomeText;
-     DatabaseReference ref, billRef, tableRef;
+    DatabaseReference ref, billRef, tableRef;
     private FirebaseDatabase firebaseDatabase;
-    public static String userId, tableReferenceString;
+    public static String userId, restaurantReferenceString,tableReferenceString;
     private userCustomer userCustomer;
     private ArrayList<String> billList;
     private ArrayAdapter<String> adapterR;
     BillHistory billHistory;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_main);
 
+        restaurantReferenceString = "23781";
         firebaseAuth = firebaseAuth.getInstance();
         userId = firebaseAuth.getCurrentUser().getUid();
         ref = firebaseDatabase.getInstance().getReference("Users").child(userId);
-        tableRef = firebaseDatabase.getInstance().getReference("Connection");
+        tableRef = firebaseDatabase.getInstance().getReference("Connection").child(restaurantReferenceString);
         billRef = firebaseDatabase.getInstance().getReference("Users").child(userId).child("Bills");
         tableReferenceString = "42019";
 
         userCustomer = new userCustomer();
+        scanQR = (Button) findViewById(R.id.connectToTable);
+        scanQR.setOnClickListener(this);
 
         //Get status of user and send to main activity if user is signed out
         FirebaseUser user = firebaseAuth.getCurrentUser();
