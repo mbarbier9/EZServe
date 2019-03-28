@@ -42,7 +42,7 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
     private TextView welcomeText;
     DatabaseReference ref, billRef, tableRef;
     private FirebaseDatabase firebaseDatabase;
-    public static String userId, restaurantReferenceString,tableReferenceString;
+    public static String userId, restaurantReferenceString,tableReferenceString,Result;
     private userCustomer userCustomer;
     private ArrayList<String> billList;
     private ArrayAdapter<String> adapterR;
@@ -54,11 +54,10 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_main);
 
-        restaurantReferenceString = "23781";
         firebaseAuth = firebaseAuth.getInstance();
         userId = firebaseAuth.getCurrentUser().getUid();
         ref = firebaseDatabase.getInstance().getReference("Users").child(userId);
-        tableRef = firebaseDatabase.getInstance().getReference("Connection").child(restaurantReferenceString);
+        tableRef = firebaseDatabase.getInstance().getReference("Connection");
         billRef = firebaseDatabase.getInstance().getReference("Users").child(userId).child("Bills");
 
         userCustomer = new userCustomer();
@@ -125,14 +124,20 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
         });
     }
 
-    public void compareCode(final String result){
+    public void compareCode(final String restaurant,final String table){
         tableRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.hasChild(result)){
-                    tableRef.child(result).child("Connected Users").child(userId).setValue(true);
-                    startActivity(new Intent(CustomerMainActivity.this, TableMain.class));
-                    return;
+                if(dataSnapshot.hasChild(restaurant)){
+                    if (dataSnapshot.child(restaurant).hasChild(table)){
+                        tableRef.child(restaurant).child(table).child("Connected Users").child(userId).setValue(true);
+                        startActivity(new Intent(CustomerMainActivity.this, TableMain.class));
+                        return;
+                    }
+                    else{
+                        Toast.makeText(CustomerMainActivity.this, "Error connecting...", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                 }
                 else{
                     Toast.makeText(CustomerMainActivity.this, "Error connecting...", Toast.LENGTH_SHORT).show();
@@ -154,8 +159,11 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
                 Toast.makeText(this, "You cancelled the scanning", Toast.LENGTH_LONG).show();
             }
             else {
-                tableReferenceString = result.getContents();
-                compareCode(tableReferenceString);
+                Result = result.getContents();
+                String[] both = Result.trim().split(",");
+                restaurantReferenceString = both[0];
+                tableReferenceString = both[1];
+                compareCode(restaurantReferenceString,tableReferenceString);
             }
         }
         else {
