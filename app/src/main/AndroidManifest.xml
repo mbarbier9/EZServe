@@ -3,6 +3,8 @@
     package="com.example.ezserve">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-feature android:name="android.hardware.camera"/>
 
     <application
         android:allowBackup="true"
@@ -11,10 +13,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".CustomerMainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.RUN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity android:name=".ScanCodeActivity"></activity>
         <activity android:name=".TableMain" />
         <activity android:name=".EmployeeMainActivity" />
-        <activity android:name=".CustomerMainActivity" />
         <activity android:name=".signUp" />
         <activity android:name=".EmployeeSignIn" />
         <activity android:name=".MainActivity">

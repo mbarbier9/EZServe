@@ -1,5 +1,6 @@
 package com.example.ezserve;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
@@ -16,7 +17,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.google.common.collect.Table;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -45,7 +47,6 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
     private ArrayList<String> billList;
     private ArrayAdapter<String> adapterR;
     BillHistory billHistory;
-    ScanCodeActivity scanCodeActivity;
 
 
     @Override
@@ -146,6 +147,23 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
             }
         });
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if(result != null){
+            if(result.getContents()==null){
+                Toast.makeText(this, "You cancelled the scanning", Toast.LENGTH_LONG).show();
+            }
+            else {
+                String contents = result.getContents();
+                compareCode(contents);
+            }
+        }
+        else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
 
     @Override
     public void onClick(View view) {
@@ -155,7 +173,14 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
             startActivity(new Intent(this, MainActivity.class));
         }
         if(view == scanQR){
-            startActivity(new Intent(CustomerMainActivity.this, ScanCodeActivity.class));
+            final Activity activity = this;
+            IntentIntegrator integrator = new IntentIntegrator(activity);
+            integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
+            integrator.setPrompt("Scan");
+            integrator.setCameraId(0);
+            integrator.setBeepEnabled(false);
+            integrator.setBarcodeImageEnabled(false);
+            integrator.initiateScan();
 
         }
     }
