@@ -59,7 +59,7 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
         ref = firebaseDatabase.getInstance().getReference("Users").child(userId);
         tableRef = firebaseDatabase.getInstance().getReference("Connection").child(restaurantReferenceString);
         billRef = firebaseDatabase.getInstance().getReference("Users").child(userId).child("Bills");
-        tableReferenceString = ScanCodeActivity.codeForScanner;
+        tableReferenceString = "42019";
 
         userCustomer = new userCustomer();
         scanQR = (Button) findViewById(R.id.connectToTable);
@@ -125,12 +125,12 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
         });
     }
 
-    public void compareCode(){
+    public void compareCode(final String result){
         tableRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.hasChild(tableReferenceString)){
-                    tableRef.child(tableReferenceString).child("Connected Users").child(userId).setValue(true);
+                if (dataSnapshot.hasChild(result)){
+                    tableRef.child(result).child("Connected Users").child(userId).setValue(true);
                     startActivity(new Intent(CustomerMainActivity.this, TableMain.class));
                     return;
                 }
@@ -155,8 +155,8 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
             startActivity(new Intent(this, MainActivity.class));
         }
         if(view == scanQR){
-            //startActivity(new Intent(CustomerMainActivity.this, ScanCodeActivity.class));
-            //compareCode();
+            startActivity(new Intent(CustomerMainActivity.this, ScanCodeActivity.class));
+
         }
     }
 }

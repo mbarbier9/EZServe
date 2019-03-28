@@ -10,6 +10,7 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 public class ScanCodeActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler {
 
     ZXingScannerView ScannerView;
+    CustomerMainActivity cM;
     public static String codeForScanner;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +25,7 @@ public class ScanCodeActivity extends AppCompatActivity implements ZXingScannerV
     public void handleResult(Result result) {
 
         codeForScanner = result.getText();
+        cM.compareCode(codeForScanner);
         onBackPressed();
     }
 
