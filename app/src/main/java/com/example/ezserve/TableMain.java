@@ -27,10 +27,10 @@ import java.util.concurrent.TimeUnit;
 public class TableMain extends AppCompatActivity implements View.OnClickListener{
 
     private FirebaseDatabase firebaseDatabase;
-    private TextView tableNum, totalNum;
+    private TextView tableNum, totalNum, restaurant;
     private FirebaseAuth firebaseAuth;
     private String userID, tableChild,restaurantChild;
-    private DatabaseReference ref;
+    private DatabaseReference ref, resRef;
     private Button assistance;
     private ArrayList<String> itemsList;
     private ArrayAdapter<String> adapterItems;
@@ -60,12 +60,17 @@ public class TableMain extends AppCompatActivity implements View.OnClickListener
     }
 
     public void tableNumTitle(){
+        resRef = FirebaseDatabase.getInstance().getReference().child("Connection").child(restaurantChild);
         tableNum = (TextView) findViewById(R.id.tableNumberMain);
-        ref.addValueEventListener(new ValueEventListener() {
+        restaurant = (TextView) findViewById(R.id.restaurantTableView);
+        resRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                int tableN = dataSnapshot.child("Table").getValue(Integer.class);
+                int tableN = dataSnapshot.child(tableChild).child("Table").getValue(Integer.class);
+                String name = dataSnapshot.child("Restaurant").getValue(String.class);
+                restaurant.setText(name);
                 tableNum.setText("Table " + tableN);
+
             }
 
             @Override
