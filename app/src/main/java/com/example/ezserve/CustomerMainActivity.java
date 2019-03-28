@@ -60,7 +60,6 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
         ref = firebaseDatabase.getInstance().getReference("Users").child(userId);
         tableRef = firebaseDatabase.getInstance().getReference("Connection").child(restaurantReferenceString);
         billRef = firebaseDatabase.getInstance().getReference("Users").child(userId).child("Bills");
-        tableReferenceString = "42019";
 
         userCustomer = new userCustomer();
         scanQR = (Button) findViewById(R.id.connectToTable);
@@ -155,8 +154,8 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
                 Toast.makeText(this, "You cancelled the scanning", Toast.LENGTH_LONG).show();
             }
             else {
-                String contents = result.getContents();
-                compareCode(contents);
+                tableReferenceString = result.getContents();
+                compareCode(tableReferenceString);
             }
         }
         else {
@@ -181,7 +180,6 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
             integrator.setBeepEnabled(false);
             integrator.setBarcodeImageEnabled(false);
             integrator.initiateScan();
-
         }
     }
 }
