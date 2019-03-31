@@ -4,9 +4,15 @@ import android.app.Activity;
 import android.content.Intent;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -28,6 +34,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.auth.User;
+import com.simplify.android.sdk.Simplify;
 
 import org.w3c.dom.Text;
 
@@ -47,12 +54,55 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
     private ArrayList<String> billList;
     private ArrayAdapter<String> adapterR;
     BillHistory billHistory;
+    Simplify simplify;
+
+    private DrawerLayout drawerLayout;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_main);
+
+        //Payment System
+        simplify = new Simplify();
+        simplify.setApiKey("sbpb_ZWQ0M2Q4ZWMtMmJhOC00N2ZjLThjMGMtYjljYTJkMWM2NzFm");
+
+        //DRAWER AND TOOLBAR
+        drawerLayout = findViewById(R.id.drawer_layout);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionbar = getSupportActionBar();
+        actionbar.setDisplayHomeAsUpEnabled(true);
+        actionbar.setDisplayShowHomeEnabled(true);
+        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        // set item as selected to persist highlight
+                        menuItem.setChecked(true);
+                        // close drawer when item is tapped
+                        drawerLayout.closeDrawers();
+
+                        int id = menuItem.getItemId();
+                        switch (id) {
+                            case R.id.nav_profile:
+                                startActivity(new Intent(CustomerMainActivity.this, userProfile.class));
+                                return true;
+                            case R.id.nav_payment:
+                                startActivity(new Intent(CustomerMainActivity.this, payments.class));
+                                return true;
+                            default:
+                                return true;
+                        }
+                    }
+                });
+
+        //DRAWER AND TOOLBAR
 
         firebaseAuth = firebaseAuth.getInstance();
         userId = firebaseAuth.getCurrentUser().getUid();
@@ -77,9 +127,22 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
         scanQR = (Button) findViewById(R.id.connectToTable);
         scanQR.setOnClickListener(this);
 
+
+
         welcomeTextView();
         billListView();
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                drawerLayout.openDrawer(GravityCompat.START);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     public void welcomeTextView(){
         //Get First Name and welcome the user
@@ -88,7 +151,7 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String firstName = dataSnapshot.child("first name").getValue(String.class);
-                welcomeText.setText("Welcome " + firstName+"!");
+                welcomeText.setText("Welcome " + firstName +"!");
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -177,7 +240,6 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
         if(view == signOut){
             firebaseAuth.signOut();
             finish();
-            startActivity(new Intent(this, MainActivity.class));
         }
         if(view == scanQR){
             final Activity activity = this;

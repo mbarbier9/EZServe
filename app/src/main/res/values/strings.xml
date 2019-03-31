@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">EZServe</string>
+    <string name="title_activity_user_profile">userProfile</string>
 </resources>

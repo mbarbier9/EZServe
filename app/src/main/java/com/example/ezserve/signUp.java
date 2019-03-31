@@ -56,7 +56,7 @@ public class signUp extends AppCompatActivity implements View.OnClickListener{
     private void register(){
         final String firstName = firstNameSignUp.getText().toString().trim();
         final String lastName = lastNameSignUp.getText().toString().trim();
-        String email = emailSignUp.getText().toString().trim();
+        final String email = emailSignUp.getText().toString().trim();
         String passwordOne = passwordOneSignUp.getText().toString().trim();
         String passwordTwo = passwordTwoSignUp.getText().toString().trim();
 
@@ -84,6 +84,7 @@ public class signUp extends AppCompatActivity implements View.OnClickListener{
                                 Map newInfo = new HashMap();
                                 newInfo.put("first name", firstName);
                                 newInfo.put("last name", lastName);
+                                newInfo.put("email", email);
                                 currentUserDB.setValue(newInfo);
 
                                 //Tell user status of operation
