@@ -1,5 +1,6 @@
 package com.example.ezserve;
 
+import android.content.Intent;
 import android.provider.ContactsContract;
 import android.speech.tts.TextToSpeech;
 import android.support.annotation.NonNull;
@@ -26,12 +27,11 @@ import java.util.concurrent.TimeUnit;
 
 public class TableMain extends AppCompatActivity implements View.OnClickListener{
 
-    private FirebaseDatabase firebaseDatabase;
     private TextView tableNum, totalNum, restaurant;
     private FirebaseAuth firebaseAuth;
-    private String userID, tableChild,restaurantChild;
+    public String userID,tableChild,restaurantChild;
     private DatabaseReference ref, resRef;
-    private Button assistance;
+    private Button assistance, pay;
     private ArrayList<String> itemsList;
     private ArrayAdapter<String> adapterItems;
     CustomerMainActivity cM;
@@ -52,6 +52,10 @@ public class TableMain extends AppCompatActivity implements View.OnClickListener
 
         assistance = (Button) findViewById(R.id.assistanceButton);
         assistance.setOnClickListener(this);
+
+        pay = (Button)findViewById(R.id.payTableButton);
+        pay.setOnClickListener(this);
+
 
         tableNumTitle();
         listView();
@@ -119,10 +123,8 @@ public class TableMain extends AppCompatActivity implements View.OnClickListener
                     itemsList.add(key+" $" + df.format(value));
                     total = total+value;
                 }
-                itemsListView.setAdapter(null);
                 itemsListView.setAdapter(adapterItems);
                 totalNum.setText("$"+df.format(total));
-
             }
 
             @Override
@@ -137,6 +139,9 @@ public class TableMain extends AppCompatActivity implements View.OnClickListener
         if (view == assistance){
 
             requestAssistance();
+        }
+        if(view == pay){
+            startActivity(new Intent(TableMain.this, PayForItems.class));
         }
     }
 }

@@ -15,7 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".addCreditCard"></activity>
+        <activity android:name=".PayForItems"></activity>
+        <activity android:name=".addCreditCard" />
         <activity android:name=".payments" />
         <activity
             android:name=".userProfile"

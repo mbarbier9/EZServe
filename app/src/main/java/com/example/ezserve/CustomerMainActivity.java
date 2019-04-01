@@ -55,7 +55,6 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
     private ArrayAdapter<String> adapterR;
     BillHistory billHistory;
     Simplify simplify;
-
     private DrawerLayout drawerLayout;
 
 
