@@ -96,7 +96,8 @@ public class payments extends AppCompatActivity implements AdapterView.OnItemSel
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String number = dataSnapshot.child(Integer.toString(position)).child("number").getValue(String.class);
                 String name = dataSnapshot.child(Integer.toString(position)).child("name").getValue(String.class);
-                String exp = dataSnapshot.child(Integer.toString(position)).child("exp").getValue(String.class);
+                String exp_month = dataSnapshot.child(Integer.toString(position)).child("exp_month").getValue(String.class);
+                String exp_year = dataSnapshot.child(Integer.toString(position)).child("exp_year").getValue(String.class);
                 String type = dataSnapshot.child(Integer.toString(position)).child("type").getValue(String.class);
 
                 if (type.equals("Visa")) {
@@ -109,7 +110,7 @@ public class payments extends AppCompatActivity implements AdapterView.OnItemSel
 
                 cardNumber.setText(number.replace(" ", "   "));
                 cardName.setText(name.toUpperCase());
-                cardExp.setText(exp);
+                cardExp.setText(exp_month + "/" + exp_year);
             }
 
             @Override

@@ -1,6 +1,7 @@
 package com.example.ezserve;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.provider.ContactsContract;
 import android.speech.tts.TextToSpeech;
 import android.support.annotation.NonNull;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -89,9 +91,14 @@ public class TableMain extends AppCompatActivity implements View.OnClickListener
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.child("Status").getValue().equals("OFF")){
                     ref.child("Status").setValue("ON");
+                    Toast.makeText(TableMain.this, "Assistance Requested!", Toast.LENGTH_SHORT).show();
+                    assistance.setBackgroundColor(Color.RED);
+                    assistance.setText("CANCEL");
                 }
                 else {
                     ref.child("Status").setValue("OFF");
+                    assistance.setBackgroundColor(Color.GREEN);
+                    assistance.setText("ASSISTANCE");
                 }
             }
             @Override

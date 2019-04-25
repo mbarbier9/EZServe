@@ -12,6 +12,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -19,6 +25,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.auth.User;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -53,17 +62,25 @@ public class signUp extends AppCompatActivity implements View.OnClickListener{
         signUpButton.setOnClickListener(this);
     }
 
+    @Override
+    public void onClick(View view) {
+        if(view == signUpButton){
+            register();
+        }
+    }
+
     private void register(){
         final String firstName = firstNameSignUp.getText().toString().trim();
         final String lastName = lastNameSignUp.getText().toString().trim();
         final String email = emailSignUp.getText().toString().trim();
         String passwordOne = passwordOneSignUp.getText().toString().trim();
         String passwordTwo = passwordTwoSignUp.getText().toString().trim();
+        final RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
 
         //If any of the text views are not filled out there will be an error message to notify user
         if (TextUtils.isEmpty(firstName)||TextUtils.isEmpty(lastName)||TextUtils.isEmpty(email)
                 ||TextUtils.isEmpty(passwordOne)||TextUtils.isEmpty(passwordTwo)){
-            Toast.makeText(this, "Not all blanks are filled", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Must fill all the required fields", Toast.LENGTH_SHORT).show();
             return;
         }
         //Checks if both passwords match before making the account
@@ -78,18 +95,47 @@ public class signUp extends AppCompatActivity implements View.OnClickListener{
                             if(task.isSuccessful()){
                                 //Store user info into database
                                 String userID = firebaseAuth.getCurrentUser().getUid();
-                                DatabaseReference currentUserDB = firebaseDatabase.getInstance()
+                                final DatabaseReference currentUserDB = firebaseDatabase.getInstance()
                                         .getReference().child("Users").child(userID);
 
-                                Map newInfo = new HashMap();
-                                newInfo.put("first name", firstName);
-                                newInfo.put("last name", lastName);
-                                newInfo.put("email", email);
-                                currentUserDB.setValue(newInfo);
 
-                                //Tell user status of operation
-                                Toast.makeText(signUp.this, "Registered Successfully",Toast.LENGTH_SHORT).show();
-                                finish();
+                                try {
+                                    String url = "http://ezservepayment.herokuapp.com/registerCustomer.php";
+                                    StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                                        @Override
+                                        public void onResponse(String response) {
+                                            Toast.makeText(signUp.this, response, Toast.LENGTH_LONG).show();
+                                            Map newInfo = new HashMap();
+                                            newInfo.put("first name", firstName);
+                                            newInfo.put("last name", lastName);
+                                            newInfo.put("email", email);
+                                            newInfo.put("id", response);
+                                            currentUserDB.setValue(newInfo);
+
+                                            //TODO: get customerID from JSON in response
+                                            //Tell user status of operation
+                                            Toast.makeText(signUp.this, "Registered Successfully",Toast.LENGTH_SHORT).show();
+                                            finish();
+                                        }
+                                    }, new Response.ErrorListener() { //Create an error listener to handle errors appropriately.
+                                        @Override
+                                        public void onErrorResponse(VolleyError error) {
+                                            //This code is executed if there is an error.
+                                        }
+                                    }) {
+                                        protected Map<String, String> getParams() {
+                                            Map<String, String> MyData = new HashMap<String, String>();
+                                            MyData.put("name", firstName + " " + lastName);
+                                            MyData.put("email", email);
+                                            return MyData;
+                                        }
+                                    };
+                                    MyRequestQueue.add(MyStringRequest);
+                                } catch (Exception e) {
+                                    Toast.makeText(signUp.this, e.toString(), Toast.LENGTH_LONG).show();
+                                }
+
+
                                 return;
                             }
                             else{
@@ -108,10 +154,5 @@ public class signUp extends AppCompatActivity implements View.OnClickListener{
 
     }
 
-    @Override
-    public void onClick(View view) {
-        if(view == signUpButton){
-            register();
-        }
-    }
+
 }
