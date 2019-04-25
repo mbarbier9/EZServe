@@ -35,14 +35,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DecimalFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public class PayForItems  extends AppCompatActivity  implements AdapterView.OnItemSelectedListener, View.OnClickListener {
     private Button confirmPay;
-    private DatabaseReference ref,resRef,mRef;
+    private DatabaseReference ref,resRef,mRef, billHRef;
     private ArrayList<String> itemsList;
     private ArrayAdapter<String> adapterItems;
     private FirebaseAuth firebaseAuth;
@@ -174,7 +177,7 @@ public class PayForItems  extends AppCompatActivity  implements AdapterView.OnIt
             simplify = new Simplify();
             simplify.setApiKey(publicAPIkey);
 
-            mRef.addValueEventListener(new ValueEventListener() {
+            mRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     String number = dataSnapshot.child("payment").child(Integer.toString(cardSelected)).child("number").getValue(String.class);
@@ -207,6 +210,7 @@ public class PayForItems  extends AppCompatActivity  implements AdapterView.OnIt
                                             JSONObject jsonObject = new JSONObject(response);
                                             Toast.makeText(PayForItems.this, response, Toast.LENGTH_LONG).show();
                                             if (jsonObject.get("status").toString().equals("APPROVED")) {
+                                                addToHistory();
                                                 startActivity(new Intent(PayForItems.this, CustomerMainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                                                 //TODO: clear table and add it to customer's bills
                                             }
@@ -252,6 +256,43 @@ public class PayForItems  extends AppCompatActivity  implements AdapterView.OnIt
 
 
         }
+    }
+
+    public void addToHistory(){
+        Random rand = new Random();
+        int num = rand.nextInt(90000) + 1000000;
+
+        final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        final LocalDate localDate = LocalDate.now();
+
+        String numS = String.valueOf(num);
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        resRef = FirebaseDatabase.getInstance().getReference();
+        billHRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("Bills").child(numS);
+        resRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                final String restaurant = dataSnapshot.child("Connection").child(restaurantChild)
+                        .child("Restaurant").getValue(String.class);
+                final Double total = dataSnapshot.child("Connection").child(restaurantChild)
+                        .child(tableChild).child("Total").getValue(Double.class);
+
+                Map newInfo = new HashMap();
+                newInfo.put("restaurant",restaurant);
+                newInfo.put("total", String.valueOf(df.format(total)));
+                newInfo.put("date", String.valueOf(dtf.format(localDate)));
+
+                billHRef.setValue(newInfo);
+
+                resRef.child("Connection").child(restaurantChild).child(tableChild).child("Items").removeValue();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     //Manages the card index when the Spinner changes

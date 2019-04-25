@@ -97,7 +97,8 @@ public class TableMain extends AppCompatActivity implements View.OnClickListener
                 }
                 else {
                     ref.child("Status").setValue("OFF");
-                    assistance.setBackgroundColor(Color.GREEN);
+                    Toast.makeText(TableMain.this, "Assistance Canceled!", Toast.LENGTH_SHORT).show();
+                    assistance.setBackgroundColor(Color.rgb(3,197,94));
                     assistance.setText("ASSISTANCE");
                 }
             }

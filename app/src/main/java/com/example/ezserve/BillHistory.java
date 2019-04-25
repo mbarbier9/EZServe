@@ -1,14 +1,13 @@
 package com.example.ezserve;
 
 public class BillHistory {
-    private String date, restaurant;
-    private float total;
+    private String date, restaurant, total;
 
     public BillHistory() {
 
     }
 
-    public BillHistory(String date, String restaurant, float total) {
+    public BillHistory(String date, String restaurant, String total) {
         this.date = date;
         this.restaurant = restaurant;
         this.total = total;
@@ -31,11 +30,11 @@ public class BillHistory {
         this.restaurant = restaurant;
     }
 
-    public float getTotal() {
+    public String getTotal() {
         return total;
     }
 
-    public void setTotal(float total) {
+    public void setTotal(String total) {
         this.total = total;
     }
 }

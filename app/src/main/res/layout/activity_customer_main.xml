@@ -65,7 +65,7 @@
             android:id="@+id/connectToTable"
             android:layout_width="309dp"
             android:layout_height="48dp"
-            android:layout_marginTop="72dp"
+            android:layout_marginTop="8dp"
             android:radius="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
