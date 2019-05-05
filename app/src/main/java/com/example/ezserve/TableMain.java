@@ -92,12 +92,30 @@ public class TableMain extends AppCompatActivity implements View.OnClickListener
                 if(dataSnapshot.child("Status").getValue().equals("OFF")){
                     ref.child("Status").setValue("ON");
                     Toast.makeText(TableMain.this, "Assistance Requested!", Toast.LENGTH_SHORT).show();
-                    assistance.setBackgroundColor(Color.RED);
-                    assistance.setText("CANCEL");
+                    setButtonColor();
                 }
                 else {
                     ref.child("Status").setValue("OFF");
                     Toast.makeText(TableMain.this, "Assistance Canceled!", Toast.LENGTH_SHORT).show();
+                    setButtonColor();
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void setButtonColor(){
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.child("Status").getValue().equals("ON")){
+                    assistance.setBackgroundColor(Color.RED);
+                    assistance.setText("CANCEL");
+                }
+                else {
                     assistance.setBackgroundColor(Color.rgb(3,197,94));
                     assistance.setText("ASSISTANCE");
                 }
@@ -107,7 +125,6 @@ public class TableMain extends AppCompatActivity implements View.OnClickListener
 
             }
         });
-
     }
 
     public void listView(){

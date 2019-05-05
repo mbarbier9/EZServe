@@ -261,10 +261,8 @@ public class PayForItems  extends AppCompatActivity  implements AdapterView.OnIt
     public void addToHistory(){
         Random rand = new Random();
         int num = rand.nextInt(90000) + 1000000;
-
         final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
         final LocalDate localDate = LocalDate.now();
-
         String numS = String.valueOf(num);
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         resRef = FirebaseDatabase.getInstance().getReference();
