@@ -216,7 +216,7 @@ public class PayForItems  extends AppCompatActivity  implements AdapterView.OnIt
                                             }
                                         } catch (JSONException e) {
                                             //For debugging
-                                            Toast.makeText(PayForItems.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                                            //Toast.makeText(PayForItems.this, e.getMessage(), Toast.LENGTH_LONG).show();
                                         }
                                     }
                                 }, new Response.ErrorListener() { //Create an error listener to handle errors appropriately.
