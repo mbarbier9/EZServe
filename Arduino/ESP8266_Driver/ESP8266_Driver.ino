@@ -2,11 +2,11 @@
 #include <ESP8266WiFi.h>
 
 //Constants
-#define WIFI_SSID "NETGEAR50"
-#define WIFI_PASSWORD "shinysparrow288"
+#define WIFI_SSID "LuisWiFi"
+#define WIFI_PASSWORD "12345678"
 #define FIREBASE_LINK "ez-serve-81804.firebaseio.com"
 #define FIREBASE_SECRET "f8QvXMp36EcqZdNcvr64WvOBzmMnhIZ2peboCXjm"
-#define TABLE "/Connection/42019/Status"
+#define TABLE "/Connection/23781/42019/Status"
 
 //Global variables
 FirebaseData firebaseData;
