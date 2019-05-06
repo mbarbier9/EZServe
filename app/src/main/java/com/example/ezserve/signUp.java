@@ -104,7 +104,14 @@ public class signUp extends AppCompatActivity implements View.OnClickListener{
                                     StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                                         @Override
                                         public void onResponse(String response) {
-                                            Toast.makeText(signUp.this, response, Toast.LENGTH_LONG).show();
+                                            //Toast.makeText(signUp.this, response, Toast.LENGTH_LONG).show();
+                                            try {
+                                                JSONObject jsonObject = new JSONObject(response);
+                                                response = jsonObject.get("id").toString();
+                                            } catch (JSONException e) {
+                                                //For debugging
+                                                //Toast.makeText(PayForItems.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                                            }
                                             Map newInfo = new HashMap();
                                             newInfo.put("first name", firstName);
                                             newInfo.put("last name", lastName);

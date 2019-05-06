@@ -213,7 +213,7 @@ public class PayForItems  extends AppCompatActivity  implements AdapterView.OnIt
                                             if (jsonObject.get("status").toString().equals("APPROVED")) {
                                                 addToHistory();
                                                 startActivity(new Intent(PayForItems.this, CustomerMainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-                                                //TODO: clear table and add it to customer's bills
+
                                             }
                                         } catch (JSONException e) {
                                             //For debugging
