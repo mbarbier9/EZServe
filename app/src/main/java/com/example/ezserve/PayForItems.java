@@ -61,6 +61,7 @@ public class PayForItems  extends AppCompatActivity  implements AdapterView.OnIt
     double total = 0.0;
 
     private Card myCard;
+
     private Simplify simplify;
     private String publicAPIkey = "sbpb_ZWQ0M2Q4ZWMtMmJhOC00N2ZjLThjMGMtYjljYTJkMWM2NzFm";
     public String paymentStatus = "Not Processed!";
@@ -283,6 +284,7 @@ public class PayForItems  extends AppCompatActivity  implements AdapterView.OnIt
                 billHRef.setValue(newInfo);
 
                 resRef.child("Connection").child(restaurantChild).child(tableChild).child("Items").removeValue();
+                resRef.child("Connection").child(restaurantChild).child(tableChild).child("Connected Users").removeValue();
             }
 
             @Override
